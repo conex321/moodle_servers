@@ -1,0 +1,16 @@
+; Zone file for canadaemcs.com
+; Generated on 2026-04-19 12:59:47 UTC
+
+$ORIGIN canadaemcs.com
+$TTL 3600
+
+@                              3600 IN SOA   ns1.dns-parking.com. dns.hostinger.com. 2026041901 10000 2400 604800 600
+@                              360 IN A     216.198.79.1
+@                              86400 IN NS    ns1.dns-parking.com.
+                               86400 IN NS    ns2.dns-parking.com.
+_dmarc                         360 IN TXT   "v=DMARC1; p=none;"
+app                            300 IN A     5.78.144.148
+resend._domainkey.noreply      360 IN TXT   "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBMuvNU8rQeaWkk/MUDgTTvZ+McZo2WK0j0P6rHxWNwocaO3hZDdtG99p66QyG6NPI50izXx3PXTnLVh8ajsJp9dEe4PMxq/z3iYq3ktH4f/bUl28C/hbLYqf/4DfzNe5zhMFgNOkSgQ+7tZZ8qI21apceOYLyNV9LvacpXHaZBwIDAQAB"
+send.noreply                   3600 IN MX    10 feedback-smtp.us-east-1.amazonses.com
+send.noreply                   3600 IN TXT   "v=spf1 include:amazonses.com ~all"
+www                            360 IN CNAME cd573d601057ddd0.vercel-dns-017.com.

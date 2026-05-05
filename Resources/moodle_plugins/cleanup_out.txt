@@ -1,0 +1,12 @@
+--- Searching for courses with 'Edwiser' in name ---
+  Course ID 5: Edwiser Video Format - Test Course (EDVID-TEST-01)
+    Summary: Test course for the Edwiser Video Format layout and Edwiser Video Activity module.
+    Updated to: Video Format - Test Course
+
+--- Checking for Edwiser in any visible text strings ---
+
+--- Looking for block instances with Edwiser text ---
+  No block instances with 'Edwiser' text found.
+
+  Caches purged.
+DONE

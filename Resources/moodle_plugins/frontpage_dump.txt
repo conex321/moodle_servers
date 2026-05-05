@@ -1,0 +1,374 @@
+﻿=== ALL REMUI SETTINGS (frontpage-related) ===
+
+[brandlogopos] => 1
+
+[brandlogotext] => 
+
+[contenttype] => 0
+
+[course_completion_history_2026] => {"01":0,"02":0,"03":0,"04":0,"05":0,"06":0,"07":0,"08":0,"09":0,"10":0,"11":0,"12":0}
+
+[course_enrollment_history_2026] => {"01":0,"02":0,"03":0,"04":0,"05":0,"06":0,"07":0,"08":0,"09":0,"10":0,"11":0,"12":0}
+
+[courseanimation] => none
+
+[coursedatevisibility] => showupdatedate
+
+[courseheaderdesign] => 1
+
+[courseperpage] => 12
+
+[darkmodeexcludepages] => 
+
+[darkmodeincludepages] => 
+
+[darkmodelogo] => 
+
+[darkmodelogomini] => 
+
+[edwcoursestats] => {"course5":{"completed":0,"inprogress":0,"notstarted":0,"enrolledusers":0},"course6":{"completed":0,"inprogress":0,"notstarted":0,"enrolledusers":0}}
+
+[enablecoursestats] => 1
+
+[enabledashboardcoursestats] => 1
+
+[enablefrontpageaboutus] => 
+
+[enablesectionbutton] => 
+
+[enrolment_page_layout] => 0
+
+[faviconurl] => 
+
+[frontpageaboutusheading] => Testimonial Title
+
+[frontpageaboutustext] => <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam.</p>
+
+[frontpageblockdesc] => Holisticly harness just in time technologies via corporate scenarios.
+
+[frontpageblockdescriptionsection1] => Holisticly harness just in time technologies via corporate scenarios.
+
+[frontpageblockdescriptionsection2] => Holisticly harness just in time technologies via corporate scenarios.
+
+[frontpageblockdescriptionsection3] => Holisticly harness just in time technologies via corporate scenarios.
+
+[frontpageblockdescriptionsection4] => Holisticly harness just in time technologies via corporate scenarios.
+
+[frontpageblockdisplay] => 1
+
+[frontpageblockheading] => About Us
+
+[frontpageblockiconsection1] => flag
+
+[frontpageblockiconsection2] => globe
+
+[frontpageblockiconsection3] => cog
+
+[frontpageblockiconsection4] => users
+
+[frontpageblockimage1] => 
+
+[frontpageblockimage2] => 
+
+[frontpageblockimage3] => 
+
+[frontpageblockimage4] => 
+
+[frontpageblocksection1] => LOREM IPSUM
+
+[frontpageblocksection2] => LOREM IPSUM
+
+[frontpageblocksection3] => LOREM IPSUM
+
+[frontpageblocksection4] => LOREM IPSUM
+
+[frontpagechooser] => 0
+
+[frontpageheadercolor] => #616e84
+
+[frontpageimagecontent] => 1
+
+[headeroverlayopacity] => 100
+
+[hideactivitysection] => 
+
+[hideheadercontent] => 
+
+[homepagetransparentheader] => 
+
+[latestcoursecount] => 12
+
+[lessonsvisiblityoncoursecard] => 1
+
+[loginpagelayout] => loginright
+
+[loginpanellogo] => 
+
+[logo] => 
+
+[logomini] => 
+
+[logoorsitename] => iconsitename
+
+[pagewidth] => default
+
+[sectionbuttonlink1] => #
+
+[sectionbuttonlink2] => #
+
+[sectionbuttonlink3] => #
+
+[sectionbuttonlink4] => #
+
+[sectionbuttontext1] => Read More
+
+[sectionbuttontext2] => Read More
+
+[sectionbuttontext3] => Read More
+
+[sectionbuttontext4] => Read More
+
+[showcoursepricing] => 1
+
+[showlatestcourse] => 1
+
+[showrelatedcourse] => 1
+
+[sitenamecolor] => #0051f9
+
+[sliderautoplay] => 1
+
+[sliderbuttontext1] => 
+
+[sliderbuttontext2] => 
+
+[sliderbuttontext3] => 
+
+[sliderbuttontext4] => 
+
+[sliderbuttontext5] => 
+
+[slidercount] => 1
+
+[slidertext1] => 
+
+[slidertext2] => 
+
+[slidertext3] => 
+
+[slidertext4] => 
+
+[slidertext5] => 
+
+[sliderurl1] => 
+
+[sliderurl2] => 
+
+[sliderurl3] => 
+
+[sliderurl4] => 
+
+[sliderurl5] => 
+
+[staticimage] => 
+
+[testimonialcount] => 1
+
+[testimonialdesignation1] => 
+
+[testimonialdesignation2] => 
+
+[testimonialdesignation3] => 
+
+[testimonialimage1] => 
+
+[testimonialimage2] => 
+
+[testimonialimage3] => 
+
+[testimonialname1] => 
+
+[testimonialname2] => 
+
+[testimonialname3] => 
+
+[testimonialtext1] => 
+
+[testimonialtext2] => 
+
+[testimonialtext3] => 
+
+
+=== ALL REMUI SETTING NAMES (complete list) ===
+
+  activitynextpreviousbutton (1 chars)
+  addtext (44 chars)
+  announcementtext (0 chars)
+  announcementtype (7 chars)
+  brandlogopos (1 chars)
+  brandlogotext (0 chars)
+  cache_reset_time (10 chars)
+  contenttype (1 chars)
+  course_completion_history_2026 (85 chars)
+  course_enrollment_history_2026 (85 chars)
+  courseanimation (4 chars)
+  coursedatevisibility (14 chars)
+  courseheaderdesign (1 chars)
+  courseperpage (2 chars)
+  customcss (7008 chars)
+  darkmodeexcludepages (0 chars)
+  darkmodeincludepages (0 chars)
+  darkmodelogo (0 chars)
+  darkmodelogomini (0 chars)
+  dashboardpersonalizerinfo (4 chars)
+  edd_remui_license_key (32 chars)
+  edd_remui_license_status (5 chars)
+  edd_remui_purchase_from (5 chars)
+  edwcoursestats (149 chars)
+  edwdashboardstats (90 chars)
+  enableaccessibilitytools (1 chars)
+  enableannouncement (0 chars)
+  enablecoursestats (1 chars)
+  enabledarkmode (15 chars)
+  enabledashboardcoursestats (1 chars)
+  enabledictionary (1 chars)
+  enabledismissannouncement (0 chars)
+  enableedwfeedback (1 chars)
+  enablefeedback (1 chars)
+  enablefrontpageaboutus (0 chars)
+  enablehelpsupport (1 chars)
+  enableproductnotification (1 chars)
+  enablequickmenu (1 chars)
+  enablesectionbutton (0 chars)
+  enablesignup (0 chars)
+  enablesiteloader (1 chars)
+  enableusagetracking (1 chars)
+  enrolleduserscountvisibility (1 chars)
+  enrolment_page_layout (1 chars)
+  enrolment_payment (1 chars)
+  faviconurl (0 chars)
+  focusmode (1 chars)
+  fontname (5 chars)
+  fontselect (1 chars)
+  frontpageaboutusheading (17 chars)
+  frontpageaboutustext (183 chars)
+  frontpageblockdesc (69 chars)
+  frontpageblockdescriptionsection1 (69 chars)
+  frontpageblockdescriptionsection2 (69 chars)
+  frontpageblockdescriptionsection3 (69 chars)
+  frontpageblockdescriptionsection4 (69 chars)
+  frontpageblockdisplay (1 chars)
+  frontpageblockheading (8 chars)
+  frontpageblockiconsection1 (4 chars)
+  frontpageblockiconsection2 (5 chars)
+  frontpageblockiconsection3 (3 chars)
+  frontpageblockiconsection4 (5 chars)
+  frontpageblockimage1 (0 chars)
+  frontpageblockimage2 (0 chars)
+  frontpageblockimage3 (0 chars)
+  frontpageblockimage4 (0 chars)
+  frontpageblocksection1 (11 chars)
+  frontpageblocksection2 (11 chars)
+  frontpageblocksection3 (11 chars)
+  frontpageblocksection4 (11 chars)
+  frontpagechooser (1 chars)
+  frontpageheadercolor (7 chars)
+  frontpageimagecontent (1 chars)
+  googleanalytics (0 chars)
+  headeroverlayopacity (3 chars)
+  helplinknumber (0 chars)
+  helpsupportemail (0 chars)
+  hideactivitysection (0 chars)
+  hideheadercontent (0 chars)
+  homepagetransparentheader (0 chars)
+  latestcoursecount (2 chars)
+  lessonsvisiblityoncoursecard (1 chars)
+  licenseactionperformed (1 chars)
+  loaderimage (0 chars)
+  loginpagelayout (10 chars)
+  loginpanellogo (0 chars)
+  loginsettingpic (0 chars)
+  logo (0 chars)
+  logomini (0 chars)
+  logoorsitename (12 chars)
+  navlogin_popup (1 chars)
+  pagewidth (7 chars)
+  poweredby (1 chars)
+  remui_customfield_catid (1 chars)
+  sectionbuttonlink1 (1 chars)
+  sectionbuttonlink2 (1 chars)
+  sectionbuttonlink3 (1 chars)
+  sectionbuttonlink4 (1 chars)
+  sectionbuttontext1 (9 chars)
+  sectionbuttontext2 (9 chars)
+  sectionbuttontext3 (9 chars)
+  sectionbuttontext4 (9 chars)
+  setupinstallcheck (9 chars)
+  setupwizard (0 chars)
+  showcoursepricing (1 chars)
+  showenrolledtextinput (8 chars)
+  showlatestcourse (1 chars)
+  showlessontextinput (7 chars)
+  showrelatedcourse (1 chars)
+  signuptextcolor (7 chars)
+  siteicon (14 chars)
+  sitenamecolor (7 chars)
+  slideimage1 (0 chars)
+  slideimage2 (0 chars)
+  slideimage3 (0 chars)
+  slideimage4 (0 chars)
+  slideimage5 (0 chars)
+  slideinterval (4 chars)
+  sliderautoplay (1 chars)
+  sliderbuttontext1 (0 chars)
+  sliderbuttontext2 (0 chars)
+  sliderbuttontext3 (0 chars)
+  sliderbuttontext4 (0 chars)
+  sliderbuttontext5 (0 chars)
+  slidercount (1 chars)
+  slidertext1 (0 chars)
+  slidertext2 (0 chars)
+  slidertext3 (0 chars)
+  slidertext4 (0 chars)
+  slidertext5 (0 chars)
+  sliderurl1 (0 chars)
+  sliderurl2 (0 chars)
+  sliderurl3 (0 chars)
+  sliderurl4 (0 chars)
+  sliderurl5 (0 chars)
+  staticimage (0 chars)
+  submited_feedbacks (114 chars)
+  testimonialcount (1 chars)
+  testimonialdesignation1 (0 chars)
+  testimonialdesignation2 (0 chars)
+  testimonialdesignation3 (0 chars)
+  testimonialimage1 (0 chars)
+  testimonialimage2 (0 chars)
+  testimonialimage3 (0 chars)
+  testimonialname1 (0 chars)
+  testimonialname2 (0 chars)
+  testimonialname3 (0 chars)
+  testimonialtext1 (0 chars)
+  testimonialtext2 (0 chars)
+  testimonialtext3 (0 chars)
+  themerev (10 chars)
+  version (10 chars)
+  video (41 chars)
+  wdm_remui_license_trans (39 chars)
+  wdm_remui_product_site (19 chars)
+
+=== CURRENT THEME ===
+Active theme: remui
+
+=== FRONTPAGE SETTINGS ===
+frontpage: 6
+frontpageloggedin: 6
+defaulthomepage: 1
+
+=== SITE INFO ===
+Site fullname: Grade 1-8 LMS
+Site shortname: LMS
+Site summary: 
+
+Done.

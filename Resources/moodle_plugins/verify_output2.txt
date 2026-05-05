@@ -1,0 +1,106 @@
+﻿=== WHITE-LABEL VERIFICATION ===
+
+1. Edwiser blocks remaining: 7
+   - #1: edwiser_grader
+   - #2: edwiser_site_monitor
+   - #3: edwiser_site_monitor
+   - #13: edwiser_site_monitor
+   - #4: edwiserratingreview
+   - #22: edwiserratingreview
+   - #23: edwiserratingreview
+2. Custom CSS applied: YES (4468 chars)
+3. Message processors:
+   - airnotifier: disabled
+   - email: ENABLED
+   - popup: disabled
+   - sms: disabled
+4. Edwiser settings:
+   - poweredby: '0'
+   - enablefeedback: '0'
+   - enableusagetracking: '0'
+   - enableproductnotification: '0'
+   - enablehelpsupport: '0'
+   - docroot: ''
+5. Courses with 'Edwiser' in name: 0
+6. Edwiser capability restrictions:
+   - block/edwiser_grader:addinstance | teacher: PREVENT
+   - block/edwiser_grader:myaddinstance | user: ALLOW
+   - block/edwiser_site_monitor:addinstance | manager: ALLOW
+   - block/edwiser_site_monitor:myaddinstance | user: ALLOW
+   - block/edwiseradvancedblock:addinstance | manager: ALLOW
+   - block/edwiseradvancedblock:cancustomizelive | manager: ALLOW
+   - block/edwiseradvancedblock:myaddinstance | user: ALLOW
+   - block/edwiserratingreview:addinstance | manager: ALLOW
+   - block/edwiserratingreview:approvereview | manager: ALLOW
+   - block/edwiserratingreview:editreview | teacher: ALLOW
+   - block/edwiserratingreview:myaddinstance | user: ALLOW
+   - format/edwiservideoformat:can_manage_license | manager: ALLOW
+   - local/edwiserform:manage | teacher: PREVENT
+   - local/edwiserpagebuilder:epb_can_view_page | manager: ALLOW
+   - mod/edwiserform:addinstance | teacher: PREVENT
+   - mod/edwiserform:view | teacher: PREVENT
+   - mod/edwiserform:viewdata | teacher: PREVENT
+   - mod/edwiservideoactivity:addinstance | manager: ALLOW
+   - mod/edwiservideoactivity:view | teacher: ALLOW
+   - report/edwiserreports_activecoursesblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_activecoursesblock:view | teacher: PREVENT
+   - report/edwiserreports_activeusersblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_activeusersblock:view | teacher: PREVENT
+   - report/edwiserreports_allcoursessummary:editadvance | teacher: PREVENT
+   - report/edwiserreports_allcoursessummary:view | teacher: PREVENT
+   - report/edwiserreports_certificatesblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_certificatesblock:view | teacher: PREVENT
+   - report/edwiserreports_completionblock:view | teacher: PREVENT
+   - report/edwiserreports_courseactivitiessummary:editadvance | teacher: PREVENT
+   - report/edwiserreports_courseactivitiessummary:view | teacher: PREVENT
+   - report/edwiserreports_courseactivitycompletion:editadvance | teacher: PREVENT
+   - report/edwiserreports_courseactivitycompletion:view | teacher: PREVENT
+   - report/edwiserreports_courseactivitystatusblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_courseactivitystatusblock:view | teacher: PREVENT
+   - report/edwiserreports_courseengagementblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_courseengagementblock:view | teacher: PREVENT
+   - report/edwiserreports_courseprogressblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_courseprogressblock:view | teacher: PREVENT
+   - report/edwiserreports_customreports:manage | teacher: PREVENT
+   - report/edwiserreports_gradeblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_gradeblock:view | teacher: PREVENT
+   - report/edwiserreports_inactiveusersblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_inactiveusersblock:view | teacher: PREVENT
+   - report/edwiserreports_insightactiveusers:view | teacher: PREVENT
+   - report/edwiserreports_insightactivitiescompleted:view | teacher: PREVENT
+   - report/edwiserreports_insightactivitycompletions:view | teacher: PREVENT
+   - report/edwiserreports_insightcoursecompleted:view | teacher: PREVENT
+   - report/edwiserreports_insightcoursecompletions:view | teacher: PREVENT
+   - report/edwiserreports_insightcourseenrolments:view | teacher: PREVENT
+   - report/edwiserreports_insightnewregistrations:view | teacher: PREVENT
+   - report/edwiserreports_insighttimespentoncourses:view | teacher: PREVENT
+   - report/edwiserreports_insighttimespentonsite:view | teacher: PREVENT
+   - report/edwiserreports_insighttotalcoursesenrolled:view | teacher: PREVENT
+   - report/edwiserreports_learner:editadvance | teacher: PREVENT
+   - report/edwiserreports_learner:view | teacher: PREVENT
+   - report/edwiserreports_learnercourseactivities:editadvance | teacher: PREVENT
+   - report/edwiserreports_learnercourseactivities:view | teacher: PREVENT
+   - report/edwiserreports_learnercourseprogress:editadvance | teacher: PREVENT
+   - report/edwiserreports_learnercourseprogress:view | teacher: PREVENT
+   - report/edwiserreports_learnercourseprogressblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_learnercourseprogressblock:view | teacher: PREVENT
+   - report/edwiserreports_learnertimespentonsiteblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_learnertimespentonsiteblock:view | teacher: PREVENT
+   - report/edwiserreports_liveusersblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_liveusersblock:view | teacher: PREVENT
+   - report/edwiserreports_siteaccessblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_siteaccessblock:view | teacher: PREVENT
+   - report/edwiserreports_studentengagement:editadvance | teacher: PREVENT
+   - report/edwiserreports_studentengagement:view | teacher: PREVENT
+   - report/edwiserreports_timespentoncourseblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_timespentoncourseblock:view | teacher: PREVENT
+   - report/edwiserreports_timespentonsiteblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_timespentonsiteblock:view | teacher: PREVENT
+   - report/edwiserreports_todaysactivityblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_todaysactivityblock:view | teacher: PREVENT
+   - report/edwiserreports_visitsonsiteblock:editadvance | teacher: PREVENT
+   - report/edwiserreports_visitsonsiteblock:view | teacher: PREVENT
+   - report/local_edwiserreports:view | teacher: PREVENT
+7. Custom menu items with 'Edwiser': clean
+
+=== VERIFICATION COMPLETE ===

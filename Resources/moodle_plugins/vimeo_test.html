@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vimeo Player Test</title>
+    <style>
+        body { margin: 20px; font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; }
+        #player-container { width: 800px; height: 450px; background: #000; margin: 20px auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #1b4332; color: #95d5b2; }
+        .error { background: #641220; color: #ffc2c7; }
+        .info { background: #1d3557; color: #a8dadc; }
+        #log { font-family: monospace; font-size: 12px; max-height: 400px; overflow-y: auto;
+               background: #0d1117; padding: 15px; border-radius: 8px; }
+        h1 { color: #e2e8f0; }
+    </style>
+</head>
+<body>
+    <h1>🎬 Vimeo Player Diagnostic Test</h1>
+    
+    <div class="status info" id="status">Loading Vimeo Player SDK...</div>
+    
+    <div id="player-container"></div>
+    
+    <h3>Event Log:</h3>
+    <div id="log"></div>
+
+    <script>
+        const log = (msg, type = 'info') => {
+            const el = document.getElementById('log');
+            const time = new Date().toISOString().split('T')[1].split('.')[0];
+            el.innerHTML += `<div style="color: ${type === 'error' ? '#ff6b6b' : type === 'success' ? '#69db7c' : '#74c0fc'}">[${time}] ${msg}</div>`;
+            el.scrollTop = el.scrollHeight;
+        };
+
+        const setStatus = (msg, type = 'info') => {
+            const el = document.getElementById('status');
+            el.className = 'status ' + type;
+            el.textContent = msg;
+        };
+
+        // Step 1: Test oEmbed endpoint
+        log('Testing oEmbed endpoint...');
+        fetch('https://vimeo.com/api/oembed.json?url=' + encodeURIComponent('https://vimeo.com/1178285195'))
+            .then(r => {
+                log(`oEmbed HTTP status: ${r.status}`, r.ok ? 'success' : 'error');
+                return r.json();
+            })
+            .then(data => {
+                log(`oEmbed title: ${data.title || 'N/A'}`, 'success');
+                log(`oEmbed video_id: ${data.video_id || 'N/A'}`, 'success');
+                log(`oEmbed domain_status_code: ${data.domain_status_code || 'not present'}`, 
+                    data.domain_status_code === 403 ? 'error' : 'success');
+                log(`oEmbed has thumbnail: ${!!data.thumbnail_url}`, 'success');
+            })
+            .catch(err => {
+                log(`oEmbed FAILED: ${err.message}`, 'error');
+            });
+
+        // Step 2: Load Vimeo Player SDK
+        log('Loading Vimeo Player SDK from player.vimeo.com...');
+        const script = document.createElement('script');
+        script.src = 'https://player.vimeo.com/api/player.js';
+        script.onload = () => {
+            log('✅ Vimeo Player SDK loaded successfully', 'success');
+            setStatus('SDK loaded, creating player...', 'info');
+            
+            // Step 3: Create Player
+            try {
+                const playerOptions = {
+                    url: 'https://vimeo.com/1178285195',
+                    width: 800,
+                    height: 450,
+                    autoplay: false,
+                    muted: true,
+                    playsinline: true,
+                    controls: true,
+                    title: true,
+                    byline: false,
+                    portrait: false,
+                };
+                
+                log(`Creating player with options: ${JSON.stringify(playerOptions)}`, 'info');
+                const player = new Vimeo.Player('player-container', playerOptions);
+                
+                player.on('loaded', async function() {
+                    log('✅ Player LOADED event fired!', 'success');
+                    setStatus('Video loaded successfully!', 'success');
+                    
+                    try {
+                        const duration = await player.getDuration();
+                        log(`Duration: ${duration} seconds (${Math.round(duration/60)} min)`, 'success');
+                        
+                        const title = await player.getVideoTitle();
+                        log(`Title: ${title}`, 'success');
+                        
+                        const tracks = await player.getTextTracks();
+                        log(`Text tracks: ${tracks.length}`, 'success');
+                        
+                        log('🎉 Everything is working! The mod_interactivevideo issue is in the plugin JS, not Vimeo.', 'success');
+                    } catch(e) {
+                        log(`Error getting video info: ${e.message}`, 'error');
+                    }
+                });
+                
+                player.on('play', () => log('▶ Play event', 'success'));
+                player.on('pause', () => log('⏸ Pause event', 'info'));
+                player.on('error', (e) => {
+                    log(`❌ Player ERROR: ${e.message} (method: ${e.method})`, 'error');
+                    setStatus(`Player error: ${e.message}`, 'error');
+                });
+                
+                player.ready().then(() => {
+                    log('✅ Player ready() resolved', 'success');
+                }).catch(e => {
+                    log(`❌ Player ready() rejected: ${e.message}`, 'error');
+                });
+                
+            } catch(e) {
+                log(`❌ Failed to create player: ${e.message}`, 'error');
+                setStatus(`Failed: ${e.message}`, 'error');
+            }
+        };
+        script.onerror = (e) => {
+            log(`❌ Failed to load Vimeo Player SDK: ${e}`, 'error');
+            setStatus('Failed to load SDK', 'error');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

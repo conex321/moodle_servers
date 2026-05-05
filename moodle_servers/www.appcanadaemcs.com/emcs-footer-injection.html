@@ -1,0 +1,182 @@
+<!-- ═══ CANADA EMCS FOOTER (injected via Site admin → Appearance → Additional HTML → Footer) ═══ -->
+<style id="emcs-footer-styles">
+/* Hide the default RemUI footer content so our custom footer replaces it cleanly. */
+#page-footer .footer-dark,
+#page-footer .footer-inner,
+#page-footer .footer-content-popover,
+#page-footer .tool_dataprivacy,
+#page-footer .logininfo,
+#page-footer .homelink,
+#page-footer .helplink,
+#page-footer .purgecaches,
+#page-footer .performanceinfo,
+#page-footer .validators,
+#page-footer .tool_usertours,
+#page-footer .tool_policy-footer,
+#page-footer .footer-padding { display: none !important; }
+
+#page-footer { padding: 0 !important; background: #0F2921 !important; }
+
+#emcs-footer { background: #0F2921; color: #D4D4D4; font-family: 'Inter', system-ui, sans-serif; }
+#emcs-footer a { color: #D4D4D4; text-decoration: none; transition: color .15s ease; }
+#emcs-footer a:hover { color: #D4AF37; }
+#emcs-footer .emcs-footer-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 3rem;
+}
+#emcs-footer .emcs-footer-brand .emcs-footer-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#emcs-footer .emcs-footer-brand .emcs-footer-logo svg { width: 64px; height: 64px; }
+#emcs-footer .emcs-footer-tagline {
+  color: #A3A3A3;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+  max-width: 280px;
+}
+#emcs-footer .emcs-footer-social {
+  display: flex;
+  gap: 0.75rem;
+}
+#emcs-footer .emcs-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  color: #A3A3A3;
+  transition: background .15s ease, color .15s ease;
+}
+#emcs-footer .emcs-social-link:hover {
+  background: rgba(212,175,55,0.15);
+  color: #D4AF37;
+}
+#emcs-footer .emcs-footer-column h4 {
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+}
+#emcs-footer .emcs-footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#emcs-footer .emcs-footer-column li {
+  margin-bottom: 0.625rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+#emcs-footer .emcs-footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 1.5rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #A3A3A3;
+}
+#emcs-footer .emcs-footer-bottom p { margin: 0; }
+#emcs-footer .emcs-footer-legal { display: flex; gap: 1.5rem; }
+@media (max-width: 900px) {
+  #emcs-footer .emcs-footer-main { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  #emcs-footer .emcs-footer-main { grid-template-columns: 1fr; padding: 3rem 1.25rem 2rem; }
+  #emcs-footer .emcs-footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+
+<script id="emcs-footer-inject">
+(function () {
+  function render() {
+    var footer = document.getElementById('page-footer') || document.querySelector('footer[role="contentinfo"]') || document.querySelector('footer');
+    if (!footer) return;
+    if (document.getElementById('emcs-footer')) return; // already injected
+    var html = '' +
+      '<div id="emcs-footer" role="contentinfo">' +
+        '<div class="emcs-footer-main">' +
+          '<div class="emcs-footer-brand">' +
+            '<a class="emcs-footer-logo" aria-label="Canada EMCS home" href="https://www.canadaemcs.com">' +
+              '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Canada EMCS">' +
+                '<rect width="64" height="64" rx="12" fill="#1B4332"></rect>' +
+                '<text x="32" y="40" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-weight="700" font-size="22" letter-spacing="1.5" fill="#FFFFFF">EMCS</text>' +
+                '<line x1="18" y1="48" x2="46" y2="48" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"></line>' +
+              '</svg>' +
+            '</a>' +
+            '<p class="emcs-footer-tagline">Ontario-accredited online education for students worldwide</p>' +
+            '<div class="emcs-footer-social">' +
+              '<a class="emcs-social-link" aria-label="Website" href="https://www.canadaemcs.com" target="_blank" rel="noopener">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14A7.94 7.94 0 014 12c0-.69.1-1.36.26-2h3.38a16.78 16.78 0 000 4H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A8.03 8.03 0 015.08 16zm2.95-8H5.08a8.03 8.03 0 014.33-3.56A15.65 15.65 0 008.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66a14.37 14.37 0 010-4h4.68a14.37 14.37 0 010 4zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 01-4.33 3.56zM16.36 14a16.78 16.78 0 000-4h3.38a7.94 7.94 0 01.26 2c0 .69-.1 1.36-.26 2h-3.38z"/></svg>' +
+              '</a>' +
+              '<a class="emcs-social-link" aria-label="Email" href="mailto:contact@emcs.ca">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 5-8-5V6l8 5 8-5v2.24z"/></svg>' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="emcs-footer-column">' +
+            '<h4>Programs</h4>' +
+            '<ul>' +
+              '<li><a href="https://www.canadaemcs.com/academic-prep" target="_blank" rel="noopener">Academic Preparation</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/official-ontario" target="_blank" rel="noopener">Official Ontario Program</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/programs/elementary" target="_blank" rel="noopener">Primary Foundation</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/programs/middle-school" target="_blank" rel="noopener">Middle School Foundation</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/programs/high-school" target="_blank" rel="noopener">High School Pathways</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/tuition" target="_blank" rel="noopener">Tuition &amp; Fees</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/ossd-requirements" target="_blank" rel="noopener">OSSD Requirements</a></li>' +
+            '</ul>' +
+          '</div>' +
+          '<div class="emcs-footer-column">' +
+            '<h4>About</h4>' +
+            '<ul>' +
+              '<li><a href="https://www.canadaemcs.com/about" target="_blank" rel="noopener">About Us</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/admissions/international" target="_blank" rel="noopener">International Students</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/student-support" target="_blank" rel="noopener">Student Support</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/schedule" target="_blank" rel="noopener">Academic Calendar</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/compare" target="_blank" rel="noopener">Compare Programs</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/faq" target="_blank" rel="noopener">FAQ</a></li>' +
+              '<li><a href="https://www.canadaemcs.com/contact" target="_blank" rel="noopener">Contact</a></li>' +
+            '</ul>' +
+          '</div>' +
+          '<div class="emcs-footer-column">' +
+            '<h4>Connect</h4>' +
+            '<ul>' +
+              '<li><a href="mailto:contact@emcs.ca">contact@emcs.ca</a></li>' +
+              '<li><a href="tel:+14168826571">+1 (416) 882-6571</a></li>' +
+              '<li>10 Gurney Crescent,<br>North York, ON M6B 1S8</li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>' +
+        '<div class="emcs-footer-bottom">' +
+          '<p>&copy; 2026 Canada EMCS. All rights reserved.</p>' +
+          '<div class="emcs-footer-legal">' +
+            '<a href="https://www.canadaemcs.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>' +
+            '<a href="https://www.canadaemcs.com/terms-of-service" target="_blank" rel="noopener">Terms of Service</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    footer.insertAdjacentHTML('beforeend', html);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+})();
+</script>
+<!-- ═══ END CANADA EMCS FOOTER ═══ -->

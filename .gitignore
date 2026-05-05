@@ -1,0 +1,34 @@
+# Playwright MCP cache (large, regenerable)
+.playwright-mcp/
+
+# Debug screenshots at repo root (regenerable, ~17 MB total)
+*.png
+
+# SSH private keys — NEVER commit
+Resources/ssh_keys/*
+!Resources/ssh_keys/*.pub
+
+# Vendor plugin archives (binary, large, easily re-downloaded from vendor)
+Resources/moodle_plugins/*.zip
+Resources/moodle_plugins/*.tar.gz
+Resources/moodle_plugins/*.tgz
+Resources/moodle_plugins/*.pdf
+
+# Backup / pre-change snapshots
+*.bak
+*.bak-*
+*.orig
+docker-compose.yml.before
+docker-compose.yml.server
+*pre-*-*.sql
+*pre-*-*.sql.gz
+*pre-*-*.mustache
+*pre-*-*.js
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~
+
+# tmp work output (never created here, but defensive)
+/tmp/

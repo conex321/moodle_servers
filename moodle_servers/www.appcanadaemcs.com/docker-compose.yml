@@ -1,0 +1,55 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: moodle-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodleuser
+      MYSQL_PASSWORD: moodlepass
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  moodle:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moodle-app
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8888:80"
+    volumes:
+      - ./moodledata:/var/moodledata
+      - ./config.php:/var/www/html/config.php
+      - ../Generated_Content:/data/Generated_Content:ro
+      - ./moodle_course_organization:/data/moodle-local/moodle_course_organization:ro
+    environment:
+      MOODLE_DB_HOST: mariadb
+      MOODLE_DB_NAME: moodle
+      MOODLE_DB_USER: moodleuser
+      MOODLE_DB_PASS: moodlepass
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: moodle-phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: rootpass

@@ -1,0 +1,30 @@
+== Creating Edwiser Video Format Test Course ==
+✓ edwiservideoformat installed.
+✓ edwiservideoactivity installed.
+Deleting existing course id=4...
+✓ Old course deleted.
+✓ Course created: id=5
+✓ Sections renamed.
+  ✓ [Section 0] Page: 'Course Introduction' (cmid=5)
+  ✓ [Section 1] EdwiserVideo: 'Welcome to the Course' (cmid=6)
+  ✓ [Section 1] EdwiserVideo: 'Setting Up Your Environment' (cmid=7)
+  ✓ [Section 2] EdwiserVideo: 'Understanding the Basics' (cmid=8)
+  ✓ [Section 2] EdwiserVideo: 'Applying Core Principles' (cmid=9)
+  ✓ [Section 2] EdwiserVideo: 'Common Mistakes to Avoid' (cmid=10)
+  ✓ [Section 3] EdwiserVideo: 'Advanced Technique #1' (cmid=11)
+  ✓ [Section 3] EdwiserVideo: 'Advanced Technique #2' (cmid=12)
+  ✓ [Section 4] EdwiserVideo: 'Course Summary & Takeaways' (cmid=13)
+  ✓ [Section 4] EdwiserVideo: 'Next Steps & Resources' (cmid=14)
+✓ Course cache rebuilt.
+== Done! ==
+Course: 'Edwiser Video Format - Test Course'
+Short name: EDVID-TEST-01
+Course ID: 5
+Format: edwiservideoformat
+Sections: 5 (0-4)
+Activities added: 10
+
+Access the course at:
+  http://localhost:8888/course/view.php?id=5
+
+Login as admin to view and configure.

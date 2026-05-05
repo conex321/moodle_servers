@@ -1,0 +1,60 @@
+═══ DEEP RemUI Front Page Diagnostic ═══
+
+  frontpagechooser = '1'
+  frontpageimagecontent = '1'
+  contenttype = '1'
+  slidercount = '3'
+  sliderautoplay = '1'
+  slideinterval = '6000'
+  enablefrontpageaboutus = '1'
+  frontpageaboutusheading = 'About Our Academy'
+  frontpageaboutustext = '<div style="max-width:800px;margin:0 auto;text-align:center;"><p style="font-siz...'
+  frontpageblockdisplay = '1'
+  frontpageblockheading = 'Why Choose Our Academy?'
+  frontpageblockdesc = 'A complete Grades 1–8 learning experience, built for today\'s digital learners.'
+  testimonialcount = '3'
+  frontpageblocksection1 = 'Self-Paced Learning'
+  frontpageblockdescriptionsection1 = 'Students learn at their own speed with no rigid schedules. Every lesson is avail...'
+  frontpageblockiconsection1 = 'clock'
+  enablesectionbutton = '1'
+  slideimage1 = '/hero_banner_1.png'
+  slidertext1 = '<div style="text-align:center;"><h1 style="font-size:2.6em;font-weight:800;color...'
+  sliderurl1 = '/course/'
+  sliderbuttontext1 = 'Browse All Courses'
+
+─── About Us Logic Check ───
+frontpageblockdisplay = 1
+  Value 1 = DISABLED (returns false)
+  Value 2 = IN ROW layout
+  Value 3 = IN COLUMN layout
+  CURRENT: *** DISABLED ***
+
+─── Testimonial Logic Check ───
+enablefrontpageaboutus = 1
+  CURRENT: ENABLED
+
+─── Slider Logic Check ───
+frontpageimagecontent = 1
+  Value 1/true = Dynamic slider mode
+  Value 0/false = Static image mode
+  CURRENT: SLIDER (correct)
+
+─── Mustache Templates ───
+  frontpage.mustache
+  frontpage_available_course.mustache
+  frontpage_legacy_aboutus.mustache
+  frontpage_legacy_blogs.mustache
+  frontpage_legacy_slider.mustache
+  frontpage_legacy_testimonials.mustache
+  frontpagesections.mustache
+  frontpage_legacy_slider.mustache
+
+─── Renderer Check ───
+  block_myoverview_renderer.php
+  core_calendar_renderer.php
+  core_renderer.php
+  core_search_renderer.php
+  icon_system_fontawesome.php
+  mod_quiz_renderer.php
+
+═══ End Deep Diagnostic ═══

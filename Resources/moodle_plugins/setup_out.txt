@@ -1,0 +1,48 @@
+==============================================
+  Edwiser License Activation & White-Label
+==============================================
+
+--- [1/4] Activating RemUI License ---
+  Server response: {"success":true,"license":"valid","item_id":false,"item_name":"Edwiser+RemUI","license_limit":10,"site_count":6,"expires":"2026-09-04 23:59:59","activations_left":4,"checksum":"7e8c90d15189d293dee1dacde61fe4bb","payment_id":389230,"customer_name":"Matthew S.","customer_email":"hexstruct@gmail.com","price_id":"5"}
+  Status: valid
+  RemUI License: valid
+
+--- [2/4] Activating Edwiser Forms Pro License ---
+  Detected slug: suspended_edwiserform, name: Edwiser Forms Pro
+  Server response: {"success":true,"license":"valid","item_id":false,"item_name":"Edwiser+Forms+Pro","license_limit":10,"site_count":2,"expires":"2026-09-04 23:59:59","activations_left":8,"checksum":"dc38c6295345947169bf48936eec95c0","payment_id":389230,"customer_name":"Matthew S.","customer_email":"hexstruct@gmail.com","price_id":"1"}
+  Status: valid
+  Forms Pro License: valid
+
+--- [3/4] Activating Edwiser Reports License ---
+  Detected slug: suspended_edwiserreports, name: Edwiser Reports Pro
+  Server response: {"success":true,"license":"valid","item_id":false,"item_name":"Edwiser+Reports+Pro","license_limit":10,"site_count":1,"expires":"2026-09-04 23:59:59","activations_left":9,"checksum":"98028fc8cae0345efdfc0ccf24c79bec","payment_id":389230,"customer_name":"Matthew S.","customer_email":"hexstruct@gmail.com","price_id":"4"}
+  Status: valid
+  Reports License: valid
+
+--- [4/4] Checking RapidGrader ---
+  Detected slug: edwiser_grader, name: Edwiser RapidGrader
+  Server response: {"success":true,"license":"valid","item_id":false,"item_name":"Edwiser+RapidGrader","license_limit":10,"site_count":1,"expires":"2026-09-04 23:59:59","activations_left":9,"checksum":"686c4328554dfba4a9413cd4000cde65","payment_id":389230,"customer_name":"Matthew S.","customer_email":"hexstruct@gmail.com","price_id":"3"}
+  Status: valid
+  RapidGrader License: valid
+
+--- Applying White-Label Branding ---
+  Custom CSS applied (Edwiser branding hidden)
+  Powered by setting disabled
+  Usage tracking disabled
+  Feedback collection disabled
+  Product notifications disabled
+
+--- Purging All Caches ---
+  All caches purged successfully
+
+--- Verification ---
+  RemUI license status: valid
+  RemUI license key stored: YES
+  Custom CSS applied: YES (1703 chars)
+
+==============================================
+  Setup Complete!
+==============================================
+  Next: Visit http://localhost:8888 to verify
+  the clean, professional appearance.
+==============================================
