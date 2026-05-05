@@ -193,3 +193,29 @@ Append-only audit trail. One block per `update-project-notes` invocation. Never 
   - **Post-fix:** all five pages emit **0 `pageerror`** events. `typeof window.jQuery === "function"` (v3.7.1) — note `window.$` remains intentionally `undefined` (Moodle AMD pattern; jQuery is only exposed inside `require(['jquery'],…)` callbacks). Home page now has 4 `<link rel="preconnect" href="https://fonts.googleapis.com">` tags injected by the layout JS (was 0 before — proves the school-template require blocks are now executing).
   - HTTP status all 200 / 303 (login redirects). No 5xx anywhere. Three pre-existing 404s on the About page (`/pix/site/section_{interactive,games,teacher}.png`) are unrelated and cosmetic — see F-006.
 - next: user can either upload the three `section_*.png` images or have us strip the missing-image references from `mdl_edw_pages.id=5.pagecontent` (see F-006). Reapply Dockerfile/patches verification on next `docker compose up --build` (the COPY directives ensure the fix survives rebuilds).
+
+## 2026-05-05T21:11Z — Claude
+- session: single-file mode
+- decisions_added: none
+- failures_added: none
+- files_changed:
+  - Live server (`5.78.190.143`):
+    - `/opt/moodle/deploy/pre-rebuild-20260505.log`: **created** — captures BEFORE/AFTER image+container IDs for the `docker compose up -d --build moodle` durability test.
+    - `moodle-app` container: **rebuilt** from updated Dockerfile.
+      - BEFORE image: `sha256:f26ee1e5fe636c94c763d130e95553799f0fdac66215dd80bc3d98ee9d2a943c`
+      - AFTER  image: `sha256:fc30e68b012c38b9ddac734d76e34f66c599b777ee2a5a5cf1aadca05354b7ba`
+      - BEFORE container: `c969991473023fc9606b61f4c646998b4cbf98fe78adb192d8d0995b50a55446`
+      - AFTER  container: `54c7bc5d2c86af312331aad2bc8e5b4ae41f2972c6818e2cd93622a36dcc8235`
+  - Repo (`/Users/matthews/antigravity/Moodle_servers/`):
+    - `moodle_servers/www.appcanadaemcs.com/Dockerfile`: **created** — pulled from `5.78.190.143:/opt/moodle/Dockerfile` so the canonical build recipe lives in version control.
+    - `moodle_servers/www.appcanadaemcs.com/entrypoint.sh`: **created** — pulled from `5.78.190.143:/opt/moodle/entrypoint.sh`.
+    - `.gitignore`: **created** — excludes `.playwright-mcp/`, root-level `*.png`, `Resources/ssh_keys/*` (except `*.pub`), `Resources/moodle_plugins/*.{zip,tar.gz,tgz,pdf}`, `*.bak*`, `*.orig`, `pre-*.{sql,sql.gz,mustache,js}`, `.DS_Store`, etc.
+    - `.git/`: **created** — `git init -b main`, then initial commit `4a656ef` (100 files, 15260 lines, 940 KB) with Co-Authored-By Claude. SSH private key (`hetzner_moodle_ed25519`) verified excluded; only `.pub` is tracked. No remote configured / no push.
+    - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification (performed):
+  - **Triple-checksum sanity (pre-rebuild)**: all 5 patched files (`layout_require_js.mustache`, `login.mustache`, `edwiseradvancedblock_blockcontent.mustache`, `theme_remui_bs4-compat.{js,min.js}`) match across local repo `patches/`, `/opt/moodle/patches/`, and live container `/var/www/html/public/...` (md5s `4860bccb…`, `d5fc4076…`, `12ac2c4f…`, `7d90a5b2…`, `dbb24e03…`).
+  - **Rebuild durability test**: `docker compose up -d --build moodle` ran in ~40 s. Image ID changed (proves rebuild really happened, not no-op). Post-rebuild md5s of all 5 patched files in the new container match the expected values byte-for-byte — Dockerfile `COPY` directives (lines 167–171) are working.
+  - **Production downtime measured**: ~25 s of HTTP 502s during container swap (mariadb + nginx stayed up the whole time). HTTP 200 returned at attempt 5 (~25 s after recreate).
+  - **Playwright re-run post-rebuild** (Chromium 1217 against `https://app.canadaemcs.com`): 0 `pageerror` events on `/`, `/login/index.php`, `/my/`, `/course/index.php`, `/local/edwiserpagebuilder/page.php?id=5`. 3 unrelated 404s on About page (`/pix/site/section_*.png`) persist as known cosmetic issue.
+  - **Caches purged** post-rebuild as `www-data` (`admin/cli/purge_caches.php` returned 0).
+- next: pre-existing About-page 404 `<img>` tags still pending user choice (upload three `section_*.png` files OR strip the `<img>` lines from `mdl_edw_pages.id=5.pagecontent`). Repo is now version-controlled — adding a remote (`git remote add origin …`) is a one-line follow-up if/when desired.
