@@ -13,6 +13,14 @@ Resources/moodle_plugins/*.zip
 Resources/moodle_plugins/*.tar.gz
 Resources/moodle_plugins/*.tgz
 Resources/moodle_plugins/*.pdf
+moodle_servers/*/moodleplugins/*.zip
+moodle_servers/*/moodleplugins/*.tar.gz
+moodle_servers/*/moodleplugins/*.tgz
+moodle_servers/*/moodleplugins/*.pdf
+moodle_servers/*/dbdata/
+moodle_servers/*/moodledata/
+moodle_servers/*/moodle_course_organization/
+moodle_servers/Generated_Content/
 
 # Backup / pre-change snapshots
 *.bak

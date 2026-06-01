@@ -141,11 +141,13 @@ RUN cd /tmp && unzip -oq forms-pro.zip \
 # deploy_to_moodle.php to create interactive video lessons with Vimeo
 # chapters and embedded quiz questions.
 #
-# Source: moodle-local/plugins-src/interactivevideo/ — version-controlled
-# plugin directory (from sokunthearithmakara/moodle-mod_interactivevideo v1.7.2).
-# Update procedure: replace the contents of plugins-src/interactivevideo/ with a
-# newer tagged release, then rebuild this image.
-COPY plugins-src/interactivevideo /var/www/html/public/mod/interactivevideo
+# Source archive: moodleplugins/mod_interactivevideo.zip
+# Update procedure: replace the zip with a newer tagged release, confirm the
+# top-level directory name below, then rebuild this image.
+COPY moodleplugins/mod_interactivevideo.zip /tmp/mod_interactivevideo.zip
+RUN cd /tmp && unzip -oq mod_interactivevideo.zip \
+    && mv moodle-mod_interactivevideo-main /var/www/html/public/mod/interactivevideo \
+    && rm -f /tmp/mod_interactivevideo.zip
 
 # Moodle 5.x serves from public/ — update Apache DocumentRoot
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public

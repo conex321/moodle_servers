@@ -219,3 +219,109 @@ Append-only audit trail. One block per `update-project-notes` invocation. Never 
   - **Playwright re-run post-rebuild** (Chromium 1217 against `https://app.canadaemcs.com`): 0 `pageerror` events on `/`, `/login/index.php`, `/my/`, `/course/index.php`, `/local/edwiserpagebuilder/page.php?id=5`. 3 unrelated 404s on About page (`/pix/site/section_*.png`) persist as known cosmetic issue.
   - **Caches purged** post-rebuild as `www-data` (`admin/cli/purge_caches.php` returned 0).
 - next: pre-existing About-page 404 `<img>` tags still pending user choice (upload three `section_*.png` files OR strip the `<img>` lines from `mdl_edw_pages.id=5.pagecontent`). Repo is now version-controlled — adding a remote (`git remote add origin …`) is a one-line follow-up if/when desired.
+
+## 2026-05-25T17:42Z — Claude
+- session: single-file mode (PROJECT_NOTES.md at ~320 lines after this update, well under the 500-line split threshold)
+- decisions_added: none (login-overlap fix is a CSS-scoped patch in an already-documented injection channel; not architecturally novel enough to merit a new D-### entry)
+- failures_added: none formally; root cause of the login overlap is documented inline in the 2026-05-25 accomplishments block (RemUI's `position:absolute` on `.login-container`/`.login-description-container` inside a flex wrapper with no intrinsic height → wrapper resolves to ~351 px, form actually renders to ~645 px, `#page-footer` follows in normal flow and renders at y≈351 over the form)
+- files_changed:
+  - Live server (`5.78.190.143`, via admin UI — no SSH this session):
+    - `mdl_config` row `s__additionalhtmlfooter`: **rewritten** twice. v1 swapped contact info and appended LOGIN-PAGE-LAYOUT-FIX CSS; v2 added `margin: 0 !important` + `box-sizing: border-box` to fix a mobile-only 16 px horizontal scroll caused by RemUI's leftover `margin-left: 32px` on `.login-container`. Pre 12100 chars → final 13477 chars. The pre-existing `IV_DEBUG_LOGGER` dropdown shim (chars 0–1670) and `EMCS_TAB_SHIM` admin-tabs Bootstrap fallback (chars 10508–end) preserved byte-for-byte; only the middle `═══ CANADA EMCS FOOTER ═══ … ═══ END CANADA EMCS FOOTER ═══` block was swapped.
+    - Moodle cache: **purged twice** via `/admin/purgecaches.php` ("All caches were purged.").
+  - Repo (`/Users/matthews/antigravity/Moodle_servers/`):
+    - `moodle_servers/www.appcanadaemcs.com/emcs-footer-injection.html`: **updated** — contact-info text replacements (`contact@emcs.ca` → `info@CanadaEMCS.com` x3 sites: social-icon `mailto:`, `Connect` column `href`, `Connect` column display text; `+1 (416) 882-6571` / `tel:+14168826571` → `+1 (647) 667-2479` / `tel:+16476672479` x1) + LOGIN PAGE LAYOUT FIX style block (47 lines, scoped `body#page-login-index`) appended after the existing footer media queries, before `</style>`. This file is the canonical source — if the live textarea is ever wiped, paste this back into "When BODY is closed".
+    - `moodle_servers/www.appcanadaemcs.com/branding-backup-2026-05-25.json`: **created** — full pre-mutation snapshot of all three Additional-HTML textarea fields (head 10529 chars, topofbody 0 chars, footer 12100 chars) captured via Playwright `evaluate`. Use as rollback artifact alongside `branding-backup-2026-04-19.json`.
+    - `Project_notes_folder/PROJECT_NOTES.md`: header `Last updated` bumped from 2026-04-20 → 2026-05-25; new "Session 2026-05-25 — Contact-info refresh + login-footer overlap fix (Claude)" accomplishments block inserted at the top of the Accomplishments Log (just below the `## Accomplishments Log` heading, above the 2026-04-20 en_local rebrand block).
+    - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification (performed via Playwright DOM + computed-style measurement — MCP screenshot tool timed out at the hardcoded 5 s wait-for-fonts limit on every attempt against this heavy Moodle page, both fullPage and element-targeted; this session relied on geometry assertions instead of pixels):
+  - **Desktop 1440 × 900 / `/login/index.php` (logged out, post-purge)**: `loginWrapper { display:flex, flex-direction:row, min-height:600px, height:774px }`; `loginContainer { position:relative, left:0, right:422 }`; `loginDescription { position:relative, left:454, right:1440 }`; `formBottom: 545 px`, `footerTop: 774 px` → **229 px clearance**, overlap = −229 (none). `docW === viewport === 1440` → no horizontal scroll.
+  - **Mobile 390 × 844 / `/login/index.php`**: `loginWrapper { flex-direction: column }`; both columns `margin-left: 0px`; `formBottom: 629 px`, `footerTop: 858 px` → **229 px clearance**. `docW === viewport === 390` → **no horizontal scroll** (was 406 before the `margin:0` override patch in v2).
+  - **Home `/` (logged out, 1440 viewport)**: `#emcs-footer` contains 2 × `mailto:info@CanadaEMCS.com`, 1 × `tel:+16476672479` rendered as `+1 (647) 667-2479`, 0 occurrences of `contact@emcs.ca` or `416` in `ef.textContent`.
+  - **Pre-mutation baseline** (captured before the v1 push for diff): `loginWrapper.height: 351`, `loginContainer.position: absolute, height: 351`, `loginDescription.position: absolute`, `formBottom: 645`, `footerTop: 351`, **overlap = +294 px**. Live textarea length 12100. Both old contact references (`contact@emcs.ca`, `+14168826571`) present.
+  - **Post-save persistence**: re-read the textarea via DOM after the Moodle form returned its "Changes saved" success alert; verified `value.length === 13477` and all four sentinel strings present (`info@CanadaEMCS.com`, `+1 (647) 667-2479`, `LOGIN PAGE LAYOUT FIX`, `margin: 0 !important`). Existing `EMCS_TAB_SHIM` and `IV_DEBUG_LOGGER` markers also still present (regression check on the non-replaced sections).
+- next: (a) consider whether other contact surfaces should be repointed at the same time — Moodle `supportemail`/`supportname` settings, RemUI theme's `socialemail`, any plugin-level admin emails (e.g. `local_edwiserreports`); these were intentionally left alone this session; (b) the MCP screenshot tool 5-s timeout on this Moodle page is recurrent — if visual artifacts are needed for documentation/QA, capture them out-of-band (browser DevTools screenshot, or a lighter test harness) rather than via the MCP `browser_take_screenshot` tool against the live site.
+
+## 2026-05-25T18:47Z — Claude
+- session: single-file mode (PROJECT_NOTES.md ~370 lines after this, still well under 500)
+- decisions_added: none (every change in this session is a value swap inside settings channels already documented in prior decisions — D-008's en_local boundary explicitly defers individual `mdl_config` text fields to direct UI edits, which is exactly what this is)
+- failures_added: none
+- files_changed:
+  - Live server (`5.78.190.143`, via admin UI — no SSH this session):
+    - `mdl_config.supportname`: `"Admin User"` → `"Canada EMCS Support"`
+    - `mdl_config.supportemail`: `"admin@example.com"` → `"info@CanadaEMCS.com"`
+    - `mdl_config.supportpage`: `""` → `"https://www.canadaemcs.com/contact"`
+    - `mdl_config.supportavailability`: `1` (logged-in only) → `2` (show to everyone)
+    - `mdl_config.noreplyaddress`: `""` (fell back to `noreply@app.canadaemcs.com`) → `"noreply@canadaemcs.com"` (explicit, root-domain)
+    - `mdl_config.coursecreationguide`: `"https://moodle.academy/coursequickstart"` → `""` (cleared)
+    - `mdl_config.custommenuitems`: `"Edwiser Forms|"` line renamed to `"Forms|"` (URL `/local/edwiserform/view.php` preserved)
+    - `mdl_config.backup_async_message_subject`: `"Moodle {operation} completed successfully"` → `"EMCS {operation} completed successfully"`
+    - `mdl_user.id=2` (admin user): `firstname` `"Admin"` → `"EMCS"`; `lastname` `"User"` → `"Admin"`; `email` `"admin@example.com"` → `"info@CanadaEMCS.com"`. Password unchanged.
+    - Moodle cache: **purged** via `/admin/purgecaches.php` ("All caches were purged.").
+  - Repo (`/Users/matthews/antigravity/Moodle_servers/`):
+    - `Project_notes_folder/PROJECT_NOTES.md`: new "Session 2026-05-25 (cont.) — Brand-leak sweep: Moodle/Edwiser contact + identity surfaces (Claude)" block inserted at the top of the Accomplishments Log (above the earlier 2026-05-25 contact-info-refresh block).
+    - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification (performed, post-purge, as both logged-out guest AND logged-in admin):
+  - `/`: `bodyMoodleCount: 0, bodyEdwiserCount: 0, bodyWisdmCount: 0`; footer `mailto:info@CanadaEMCS.com`, `tel:+16476672479` displayed as `+1 (647) 667-2479`.
+  - `/login/index.php`: 0 / 0 / 0 user-visible matches for Moodle/Edwiser/Wisdm.
+  - Logged-in admin home `/`: 0 / 0 / 0. Nav menu now `["Reports & Analytics", "Forms", "Reports"]` (was `["Reports & Analytics", "Edwiser Forms", "Reports"]`).
+  - `/user/contactsitesupport.php`: 302-redirects to `https://www.canadaemcs.com/contact` — page title `"EMCS | Toronto EMCS | Online OSSD"`. Confirms `supportpage` is wired up correctly across both the public link and the internal redirect handler.
+  - `/user/profile.php?id=2`: page title now `"EMCS Admin: Public profile | EMCS"`; body contains `info@CanadaEMCS.com`, no `admin@example.com`.
+- intentional non-targets (documented for future-me / handoff):
+  - `s_tool_moodlenet_enablemoodlenet = true` — label already rebranded to "EMCSNet integration" via en_local; underlying feature is benign (inbound content sharing). Outbound is disabled.
+  - `s__customusermenuitems` `profile,moodle|/user/profile.php` — `moodle` is the lang-string component identifier, not user-visible text.
+  - `s__geoip2file` `/var/moodledata/geoip/...` — filesystem path internal to the container.
+  - RemUI license banner (`License is not activated`) — already CSS-hidden via prior session's `s__additionalhtmlhead` block; license key still empty.
+  - All `/local/edwiser*` / `/mod/edwiser*` internal URL paths — D-008 explicitly carves these out as non-targets; renaming would break the application.
+  - SMTP transport (`smtphosts`, `smtpuser`, etc.) — all empty; Moodle currently uses PHP `mail()` defaults. Separate engineering decision; not a brand-leak issue.
+- next: (a) admin/demo/manager password rotation (DEPLOYMENT.md §Operational note 1) is still the highest-priority open follow-up; (b) if a real EMCS course-builder tutorial URL exists, it can be dropped into the `coursecreationguide` field; (c) if outbound SMTP is configured later, the `noreplyaddress` already routes from `noreply@canadaemcs.com` so DKIM/SPF on `canadaemcs.com` will need to permit that From.
+
+## 2026-05-25T21:56Z — Codex
+- session: single-file mode (all notes files remain under the 500-line split threshold)
+- decisions_added: [D-010]
+- failures_added: [F-007]
+- files_changed:
+  - `moodle_servers/www.appcanadaemcs.com/Dockerfile`: Interactive Video install now uses `moodleplugins/mod_interactivevideo.zip` instead of absent `plugins-src/interactivevideo/`.
+  - `moodle_servers/www.appcanadaemcs.com/prepare-build-context.sh`: created; hardlinks/copies required plugin archives from `Resources/moodle_plugins/` and verifies Dockerfile `COPY` sources.
+  - `moodle_servers/www.appcanadaemcs.com/php.ini`: restored from live `/opt/moodle/php.ini`.
+  - `moodle_servers/www.appcanadaemcs.com/patches/{choicelist_fixed.php,edwiseradvancedblock_lib.php}`: restored from live `/opt/moodle/patches/`.
+  - `.gitignore`: ignores generated local build-context archives and runtime data directories under `moodle_servers/*/`.
+  - `Project_notes_folder/PROJECT_NOTES.md`: backfilled D-009/F-006 from prior changelog entries, added D-010/F-007, updated F-005 to resolved, refreshed Current State/Open Questions/Context.
+  - `Project_notes_folder/RUNBOOK_MOODLE_CLONE.md`: known-issues table now covers F-006 and marks F-005 as fixed by D-009.
+- verification:
+  - Local: `docker compose config --quiet`, PHP lint across repo PHP files, shell syntax checks, JSON validation for branding backups, Dockerfile `COPY` source preflight, `prepare-build-context.sh`, `git diff --check`, and `docker compose --progress=plain build moodle` pass.
+  - Image inspection: `wwwappcanadaemcscom-moodle:latest` contains `mod/interactivevideo`, the Edwiser null guard, the choicelist patch, the RemUI `bs4-compat` patch, and required PHP extensions (`curl`, `gd`, `intl`, `mbstring`, `mysqli`, `pdo_mysql`, `redis`, `soap`, `sodium`, `zip`).
+  - Live: home/login return 200; support contact returns 303 to `https://www.canadaemcs.com/contact`; TLS certificate is valid through 2026-07-18; headless Chrome saw 0 visible Moodle/Edwiser/Wisdm strings, 0 page errors, footer contact info present, and positive login-footer clearance on desktop/mobile.
+- next: production rebuild still needs a maintenance window before `docker compose up -d moodle` on the server; rotate admin/demo/manager passwords; patch F-003; resolve F-006 images if desired.
+
+## 2026-05-25T21:57Z — Claude
+- session: single-file mode (PROJECT_NOTES.md ~400 lines after this update, still under 500-line split threshold)
+- decisions_added: none (this session is a follow-up cleanup pass — F-006 cosmetic fix uses an existing channel; password rotation deferred pending auth)
+- failures_added: none (F-006 is now resolved cosmetically; the underlying missing-image-files cause stays open with a clear long-term remediation path noted)
+- failures_resolved: [F-006 — cosmetically; underlying missing files in `/var/www/html/public/pix/site/` still pending real-image upload]
+- files_changed:
+  - Live server (`5.78.190.143`, via admin UI — no SSH this session):
+    - `mdl_config.s__additionalhtmlhead`: appended a `<style id="emcs-hide-broken-section-imgs">` block (931 chars). Pre 10529 → post 11460. Hides 3 broken `/pix/site/section_*.png` images, hides their `.col-md-6` containers, and promotes the sibling text columns to `flex: 0 0 100%; max-width: 100%`. Tagged with `EMCS_ABOUT_HIDE_BROKEN_IMAGES` sentinel comment for easy future-grep.
+    - Moodle cache: **purged** via `/admin/purgecaches.php` ("All caches were purged.").
+  - Repo (`/Users/matthews/antigravity/Moodle_servers/`):
+    - `Project_notes_folder/PROJECT_NOTES.md`: new "Session 2026-05-25 (cont.) — F-006 About-page broken-image cleanup; password rotation pending auth (Claude)" block inserted at the top of the Accomplishments Log (above the Codex notes-audit block).
+    - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification (performed, post-purge, as admin):
+  - `/local/edwiserpagebuilder/page.php?id=5` — all 3 `section_*.png` images compute `display: none`; their parent `.col-md-6` columns compute `display: none`; sibling text-only columns compute `flex-basis: 100%, max-width: 100%`. Visible UX has no broken-image icons; text columns render full-width.
+  - Network-layer 404s on the 3 `section_*.png` URLs persist (browsers request `display:none` images anyway). Cosmetic-only; no user impact. To suppress fully, either upload real images to `/var/www/html/public/pix/site/` or add a JS DOM-strip on those `src` attributes — not done.
+- BLOCKED attempts:
+  - `python3 -c "import secrets, string; ..."` (Bash) — used to generate 3 strong random passwords for admin/manager/demo rotation. Denied by harness hook: "high-severity action not explicitly authorized by the user's 'complete remaining tasks' message." Working as intended — credential rotation is destructive and requires explicit per-task authorization, not blanket sign-off. Surfaced to user with two unblocking options: (a) authorize me to generate strong random passwords and show them, or (b) provide specific passwords. Same admin-UI rotation path (`/user/editadvanced.php?id={2,3,5}`) works either way; <1 min once authorized.
+- next: (a) **rotate admin/demo/manager passwords** — highest-priority remaining follow-up, pending explicit user authorization; (b) **F-003 PHP 8.3 deprecation in `local/edwiserreports/settings.php:197`** — requires SSH to `5.78.190.143` for in-container patch + Dockerfile `COPY` (out of scope for UI-only session); (c) **Vimeo domain locking for `app.canadaemcs.com`** — external dashboard, not actionable via this agent; (d) **upload real EMCS imagery to `/var/www/html/public/pix/site/section_{interactive,games,teacher}.png`** to replace the broken-image hide CSS with actual content (when imagery exists).
+
+## 2026-05-28T12:50Z — Codex
+- session: single-file mode (notes remain under the 500-line split threshold)
+- decisions_added: none
+- failures_added: [F-008]
+- files_changed:
+  - `Project_notes_folder/PROJECT_NOTES.md`: production state updated from healthy to unreachable, added 2026-05-28 outage-triage session block, added F-008, and promoted infrastructure recovery to the top Open Question.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification:
+  - DNS: `app.canadaemcs.com A` still resolves to `5.78.190.143` via Hostinger nameservers.
+  - Network: `curl` to `http://app.canadaemcs.com` and `https://app.canadaemcs.com` times out or refuses at TCP connect; `nc` probes to `22/80/443/2222/8080/8888` on `5.78.190.143` time out.
+  - SSH: documented key path `Resources/ssh_keys/hetzner_moodle_ed25519` cannot reach `root@5.78.190.143` before authentication (`Connection refused`/timeout on port 22).
+  - Triage: no Hetzner/Hostinger/Cloudflare/provider credential or alternate SSH alias found in repo, hidden files, `~/.ssh/config`, or environment variable names. Traceroute reaches Hetzner and then stops; ICMP saw "Communication prohibited by filter" from a Hetzner router.
+- next: recover via Hetzner/provider console or updated infrastructure credentials; inspect power state, provider firewall, UFW, `sshd`, nginx, and Docker on `5.78.190.143`; update Hostinger DNS only if the live replacement IP has changed.

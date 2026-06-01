@@ -410,7 +410,7 @@ For a total wipe: destroy the VPS, rebuild from the source snapshot again.
 
 ---
 
-## Known issues to carry forward (from F-001 through F-005)
+## Known issues to carry forward (from F-001 through F-006)
 
 Re-read these in PROJECT_NOTES.md before hitting them:
 
@@ -420,7 +420,8 @@ Re-read these in PROJECT_NOTES.md before hitting them:
 | F-002 | Ghost plugins from snapshot break webservice form | If snapshot pre-dates 2026-04-19 OR if the Dockerfile's ghost-fix COPY block is missing. Symptom: `coding_exception` on `admin/webservice/service_functions.php`. |
 | F-003 | `stripos(null, ...)` in `local/edwiserreports/settings.php:197` | If `$CFG->debugdisplay = 1` is set — do NOT re-enable debug display on production until this is patched. |
 | F-004 | `local_edwiserreports/install.js` 404 | Cosmetic, every admin page. Harmless. |
-| F-005 | `theme_remui/bs4-compat.js` jQuery race | Cosmetic, every page. Harmless. |
+| F-005 | `theme_remui/bs4-compat.js` jQuery race | Fixed by D-009 overlays; re-test after RemUI upgrades/rebuilds. |
+| F-006 | About-page `section_*.png` images 404 | Cosmetic only; upload the three images or remove the stale `<img>` references. |
 
 ---
 
@@ -446,6 +447,7 @@ Re-read these in PROJECT_NOTES.md before hitting them:
 | Rehome runbook (per-domain) | `moodle_servers/www.<domain>/DEPLOYMENT.md` |
 | Live config mirror | `moodle_servers/www.<domain>/config.php` |
 | Live compose mirror | `moodle_servers/www.<domain>/docker-compose.yml` |
+| Local build-context prep | `moodle_servers/www.<domain>/prepare-build-context.sh` |
 | Live nginx site | `moodle_servers/www.<domain>/nginx_moodle.conf` |
 | SSH keys | `Resources/ssh_keys/hetzner_moodle_ed25519` |
 | Plugin zips (backup) | `Resources/moodle_plugins/` |
