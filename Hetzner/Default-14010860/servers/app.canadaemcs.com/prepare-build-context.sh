@@ -2,7 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+# Repo root is 4 levels up: Hetzner/<project>/servers/<domain>/ (reorganized 2026-06)
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
 SOURCE_DIR="$REPO_ROOT/Resources/moodle_plugins"
 TARGET_DIR="$SCRIPT_DIR/moodleplugins"
 

@@ -325,3 +325,152 @@ Append-only audit trail. One block per `update-project-notes` invocation. Never 
   - SSH: documented key path `Resources/ssh_keys/hetzner_moodle_ed25519` cannot reach `root@5.78.190.143` before authentication (`Connection refused`/timeout on port 22).
   - Triage: no Hetzner/Hostinger/Cloudflare/provider credential or alternate SSH alias found in repo, hidden files, `~/.ssh/config`, or environment variable names. Traceroute reaches Hetzner and then stops; ICMP saw "Communication prohibited by filter" from a Hetzner router.
 - next: recover via Hetzner/provider console or updated infrastructure credentials; inspect power state, provider firewall, UFW, `sshd`, nginx, and Docker on `5.78.190.143`; update Hostinger DNS only if the live replacement IP has changed.
+
+## 2026-06-13T18:50Z — Claude
+- session: single-file mode (notes remain under the 500-line split threshold)
+- decisions_added: none
+- failures_added: none (F-008 marked RESOLVED)
+- files_changed:
+  - `Project_notes_folder/PROJECT_NOTES.md`: header refreshed; Current State production bullet flipped to reachable/healthy; F-008 marked RESOLVED with root cause (client-side networking, not a host outage); top Open Question closed; File & Directory Map + Context-for-Next-Agent SSH-key entries corrected to the verified per-host key mapping.
+  - `.gitignore` (repo root): added `.env`, `.env.*` (with `!.env.example`), and `Resources/Resources-*/` so secrets and the takeout private key can never be committed.
+  - `.env` (repo root, **created, gitignored**): Hetzner Cloud console credentials (`HETZNER_CONSOLE_URL`, `HETZNER_EMAIL`, `HETZNER_PASSWORD`) for project `14010860`.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification:
+  - DNS: `app.canadaemcs.com A` resolves to `5.78.190.143`.
+  - TCP: `5.78.190.143` 22/80/443 OPEN; `5.78.128.44` 22/80 OPEN, 443 closed.
+  - HTTP(S): `https://app.canadaemcs.com` → `200 OK` (nginx, PHP 8.3.30); `http://5.78.128.44` → `200 OK` (Apache, PHP 8.3.31).
+  - SSH: `root@5.78.190.143` login OK with `hetzner_moodle_ed25519` (host `emcs-ubuntu-4gb-hil-1`, uptime 36d). `root@5.78.128.44` login OK with `~/.ssh/schoolx` (host `ProductionServer-4gb-hil-3`, uptime 55d); the `hetzner_moodle_ed25519` key is rejected on that host (confirmed via `ssh -vv`).
+  - Containers: both hosts run `moodle-app`, `moodle-phpmyadmin`, `moodle-mariadb (healthy)`, up 5 weeks.
+  - Secrets hygiene: `git check-ignore` confirms `.env` and the takeout private key are ignored; `git ls-files` shows no secrets tracked.
+- next: optional — relocate `hetzner_moodle_ed25519` to canonical `Resources/ssh_keys/` and remove the takeout folder; enable 2FA on the Hetzner account; resume the still-open follow-ups (password rotation, F-003 patch, Vimeo domain lock, F-006 images).
+
+## 2026-06-14T00:40Z — Claude
+- session: single-file mode
+- decisions_added: none
+- failures_added: none
+- files_changed:
+  - `Project_notes_folder/PROJECT_NOTES.md`: added "Resource / space / cost snapshot (2026-06-14)" bullet to Current State; refreshed header summary.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- task: "Track usage and space and spend" on both Hetzner CPX21 hosts.
+- usage: both idle (load ~0), ~2 GB RAM free each, no swap, uptimes 36 d (prod) / 55 d (source).
+- space: prod `/` 87% (62/75 GB, moodledata 36 GB); source `/` 89% (64/75 GB, moodledata 49 GB). Reclaimable build cache ~6.5 GB (prod) / ~4.8 GB (source) via `docker builder prune`.
+- spend: Hetzner project 14010860 invoices — Jun 3 2026 $31.05 PENDING (unpaid), May 3 2026 $21.85 settled; run-rate ~$31/mo for 2x CPX21 + IPs. Retrieved via console login (2FA email OTP supplied by user); usage.hetzner.com per-line detail gated behind a separate customer-number prompt (not pursued).
+- flags: primary IPv4 `5.78.144.148` is Unassigned (billed, deletable); neither server has delete-protection; account 2FA is enabled; no hcloud API token exists.
+- next: optional — `docker builder prune` to free disk; delete unassigned IP; enable server delete-protection; add read-only `HCLOUD_TOKEN` to `.env` for scriptable recurring tracking.
+
+## 2026-06-14T00:52Z — Claude
+- session: single-file mode
+- decisions_added: none
+- failures_added: none
+- task: remediate the cost/space/hardening flags from the 00:40 tracking snapshot. User authorized "fix all of these things."
+- actions (all completed + verified):
+  - `docker builder prune -f` on both hosts → prod `/` 87%→79% (16 GB free), source `/` 89%→84% (12 GB free). Only build cache removed; images/containers untouched.
+  - Deleted unassigned primary IPv4 `5.78.144.148` (`primary_ip-127302160`) via Hetzner console. 4 primary IPs remain, all assigned.
+  - Enabled delete-protection on both servers (prod id 127422698, source id 125507449) via console. Verified through read-only API: `protection.delete=true` on both.
+  - Created READ-ONLY Hetzner Cloud API token `claude-readonly-monitoring` (project 14010860); stored as `HCLOUD_TOKEN` in gitignored `.env`. Verified: GET /v1/servers returns both servers; POST reboot → HTTP 403 (write denied).
+- files_changed:
+  - `.env`: added `HCLOUD_TOKEN` (read-only). Still gitignored.
+  - `Project_notes_folder/PROJECT_NOTES.md`: updated the 2026-06-14 resource/cost bullet to mark all flags remediated.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- notes: console actions used the master Hetzner login (2FA OTP supplied by user this session). Server reboot POST in the write-test was rejected by the read-only token, so no server was actually rebooted.
+- next: user to pay the $31.05 pending Jun invoice from the console; optional — schedule a recurring usage/space/cost check using `HCLOUD_TOKEN` + SSH `df`.
+
+## 2026-06-16T23:20Z — Codex
+- session: single-file mode
+- decisions_added: none
+- failures_added: none
+- task: compare Moodle LMS/course hosting cost against GCP and store Moodle GCP account context in `.env`.
+- files_changed:
+  - `.env`: appended `MOODLE_GCP_ACCOUNT_EMAIL`, `MOODLE_GCP_ACCOUNT_PASSWORD`, `MOODLE_GCP_ACTIVE_PROJECT=voltaic-day-495212-i3`, and an auth note. File remains gitignored; do not print the password.
+  - `C:\Users\msefa\.ssh\hetzner_moodle_ed25519`: created as a restricted copy of the existing production private key because the original `E:\...Resources\ssh_keys\hetzner_moodle_ed25519` path is treated by OpenSSH as too open/no usable ACL.
+  - `Project_notes_folder/PROJECT_NOTES.md`: refreshed header summary, added the 2026-06-16 GCP cost/auth snapshot, added this session to accomplishments, added a GCP reauth follow-up, and documented the restricted SSH key copy.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification:
+  - `.env` keys verified in masked form only; password value was not printed.
+  - `gcloud config list` showed active account `matthew@schoolconex.com` and project `voltaic-day-495212-i3`, but all GCP inventory commands failed with expired OAuth tokens: `Reauthentication failed. cannot prompt during non-interactive execution.`
+  - Hetzner read-only API confirmed two running CPX21 hosts in `hil`, both delete-protected.
+  - SSH live checks: prod `5.78.190.143` `/` = `57/75G` used (`80%`), moodledata `36G`, courses `55`, Interactive Video activities `2017`; source `5.78.128.44` `/` = `61/75G` used (`84%`), moodledata `49G`.
+  - Public pricing checked: Hetzner 2026-06-15 price-adjustment page lists new-order CPX21 USA price at `$37.49/mo`; rendered Google SKU pages gave E2 core/RAM, PD Balanced, in-use IPv4, and Cloud SQL rates used for the comparison.
+- result:
+  - Existing Hetzner actual run-rate remains about `$31.05/mo` for both legacy hosts.
+  - GCP us-central1 lift-and-shift estimates: one e2-medium VM with 80G balanced PD + in-use IPv4 `$36.11/mo`; two e2-medium VMs `$72.22/mo`; two e2-standard-2 VMs `$121.14/mo`; one e2-medium app VM plus minimal zonal Cloud SQL MySQL and 80G DB storage about `$99.02/mo`.
+- next: run `gcloud auth login alex@coursely.ca` interactively before attempting actual GCP resource/billing inventory; then re-run the comparison against real GCP usage rather than estimates.
+
+## 2026-06-30T00:00Z — Claude
+- session: inline
+- decisions_added: [D-011]
+- failures_added: none
+- task: live read-only Hetzner inventory — list active servers and the URL each is tied to.
+- method: queried `https://api.hetzner.cloud/v1/servers` and `/v1/primary_ips` with read-only `HCLOUD_TOKEN` (token printed nowhere); probed each new IP via `curl -I` and `openssl s_client`; cross-referenced `domains/hostinger_*.csv` for matching registered domains.
+- finding: **5 running CPX21 servers in project `14010860`, not 2.** Three new Moodle instances provisioned in `ash-dc1`:
+  - `emcs-gr1-8-ubuntu-4gb-hil-1` (id 127422698, 5.78.190.143, hil-dc1) → https://app.canadaemcs.com — LIVE production.
+  - `ProductionServerGr-1-8-4gb-hil-3` (id 125507449, 5.78.128.44, hil-dc1) → IP-only source/snapshot (`Do_not_edit`).
+  - `Canada-E-Academy` (id 145396564, 5.161.222.147, ash-dc1, created 2026-06-26) → no domain/SSL; Moodle redirects to /login/index.php on raw IP.
+  - `Agincourt-International-Academy` (id 146263759, 178.156.152.192, ash-dc1, created 2026-06-29) → no domain/SSL; Moodle HTTP 200 on raw IP; no matching Hostinger domain.
+  - `Canadian-Virtual-School` (id 146582071, 87.99.158.52, ash-dc1, created 2026-06-30) → no domain/SSL; Moodle "503 under maintenance".
+- files_changed:
+  - `Project_notes_folder/PROJECT_NOTES.md`: refreshed header, added Hetzner fleet-inventory bullet to Current State, added D-011.
+  - `Project_notes_folder/CHANGELOG.md`: this block.
+- verification: read-only API only; no infrastructure mutated. `domains/hostinger_subdomains.csv` confirms only `app.canadaemcs.com → 5.78.190.143`; the three new IPs appear in no DNS record yet.
+- next: confirm intended domain per new instance (esp. Agincourt — none registered), point DNS + Let's Encrypt, set Moodle `wwwroot`, enable delete-protection, re-audit cost (now ~5× CPX21).
+
+## 2026-06-30T13:50Z — Claude
+- session: inline (single-file mode)
+- decisions_added: [D-012]
+- failures_added: []
+- summary: Started hosting www.codinginabox.com on a new low-cost Hetzner server. Discovered codinginabox is a bespoke platform (static site + JS SPA LMS + Supabase + Stripe + Node arduino-compile/lab-verify + Vercel), NOT Moodle. Decided to host the real app (keep Supabase/Stripe/Vimeo cloud) on cx23/fsn1 EU (chosen over US ash on cost: €6.49 vs €20.49/mo). Created separate Hetzner project "Hextract" (id 15178002). BLOCKED: Hetzner server limit is account-wide (5/5 across all projects) — new project does NOT bypass it; create failed in both Default and Hextract. Submitted console limit-increase request (Servers->10 + Primary IPs 10/10) via Playwright-driven browser; "Request successful", pending manual validation.
+- staged_work:
+  - installed hcloud CLI 1.66.0 (winget HetznerCloud.CLI).
+  - generated SSH key Resources/ssh_keys/hetzner_codinginabox_ed25519 (+.pub); uploaded to both Default and Hextract projects.
+  - hcloud contexts created: codinginabox (Default 14010860), hextract (15178002).
+  - wrote servers/www.codinginabox.com/nginx_codinginabox.conf (static + /compile reverse-proxy + vercel.json security headers).
+  - confirmed app repo already ships services/arduino-compile/Dockerfile (x86, AVR core baked in) — no change needed.
+- credentials_added (gitignored .env): HCLOUD_TOKEN_WRITE (Default R+W), HCLOUD_TOKEN_HEXTRACT (Hextract R+W). Tokens printed only into .env, not into notes.
+- files_changed:
+  - E:\Claude\Moodle_servers\.env (two new RW tokens appended)
+  - E:\Claude\Moodle_servers\servers\www.codinginabox.com\nginx_codinginabox.conf (new)
+  - E:\Claude\SchoolConex\www.codinginabox.com\Website\services\arduino-compile\Dockerfile (verified pre-existing; not modified)
+  - Project_notes_folder/PROJECT_NOTES.md (header, Current State bullet, D-012, Open Questions #11)
+  - Project_notes_folder/CHANGELOG.md (this block)
+  - plan: C:\Users\msefa\.claude\plans\i-want-you-to-vectorized-papert.md (new)
+- next: on Hetzner limit approval -> hcloud context use hextract -> create cx23/ubuntu-24.04/fsn1 named codinginabox -> base setup -> deploy site + arduino-compile -> LAB_COMPILE_URL -> Hostinger DNS + certbot -> then GO-LIVE-RUNBOOK.md (Supabase/Stripe/Vimeo, needs Matthew's logins).
+
+## 2026-06-30T14:10Z — Claude
+- session: inline (single-file mode)
+- decisions_added: []  (extends D-012)
+- failures_added: []
+- summary: Hetzner account-wide server limit raised (request granted same day). Provisioned + deployed the CodingInABox host end-to-end, staged on a test subdomain (NOT cut over from Vercel, per Matthew).
+- work_done:
+  - Provisioned server "codinginabox" id 146601361, IPv4 167.233.141.24, IPv6 2a01:4f8:c010:9216::1, cx23/fsn1/Ubuntu 24.04, project Hextract (15178002). Enabled delete+rebuild protection.
+  - Base setup over SSH (key Resources/ssh_keys/hetzner_codinginabox_ed25519): docker.io 29.1.3, nginx 1.24, certbot 2.9, rsync; UFW allow 22/80/443.
+  - Deployed site/public -> /var/www/codinginabox (84 files, chown www-data). Built arduino-compile image (AVR core baked) and ran container on 127.0.0.1:8088 (restart=unless-stopped); /health ok, /compile returns Intel HEX.
+  - Installed nginx vhost (servers/www.codinginabox.com/nginx_codinginabox.conf): static + try_files $uri $uri.html, reverse-proxy /compile and /health to :8088, vercel.json security headers.
+  - Set window.LAB_COMPILE_URL = window.location.origin in site/public/lms/lab.html (works on staging + future www without edits).
+  - DNS: added Hostinger A record box.codinginabox.com -> 167.233.141.24 (ttl 300) via Hostinger API (PUT zone, overwrite=false; needs curl-style User-Agent, Cloudflare blocks default urllib UA). www/apex left on Vercel.
+  - TLS: certbot --nginx -d box.codinginabox.com, cert valid to 2026-09-28, HTTP->HTTPS redirect.
+  - Verified via Playwright over public HTTPS: home + lab.html load (valid cert, 0 console errors), same-origin fetch /health ok, /compile blink -> 200 + HEX.
+  - Drafted (NOT sent) Hetzner follow-up email from ai@schoolconex.com to support@hetzner.com, cc technicalsupport@schoolconex.com (Gmail draft id r6886059386766703188), confirming server limit + Primary IPs.
+- files_changed:
+  - E:\Claude\SchoolConex\www.codinginabox.com\Website\site\public\lms\lab.html (added window.LAB_COMPILE_URL = location.origin)
+  - server-side: /var/www/codinginabox (site), /opt/arduino-compile (service+image+container), /etc/nginx/sites-available/codinginabox (+box server_name, +certbot SSL)
+  - Project_notes_folder/PROJECT_NOTES.md (Current State CodingInABox bullet -> LIVE+STAGED)
+  - Project_notes_folder/CHANGELOG.md (this block)
+- pending (needs Matthew):
+  - DECISION: cut www + apex over from Vercel to 167.233.141.24 when ready (then expand cert to www+apex). Email DNS (MX/DKIM/DMARC/SPF) must stay untouched.
+  - Backend go-live per app repo GO-LIVE-RUNBOOK.md (Supabase SQL, Stripe products+webhook, Vimeo re-host) — requires Matthew's third-party logins.
+  - Review/send the Hetzner draft.
+- next: await cutover go-ahead; on "cut over", switch www (CNAME->A) + apex A to 167.233.141.24 and run certbot -d www.codinginabox.com -d codinginabox.com.
+
+## 2026-06-30T14:16Z — Claude
+- session: inline (single-file mode)
+- decisions_added: [D-013]
+- failures_added: []
+- summary: Reorganized repo by provider -> Hetzner Cloud project -> server-labelled-by-domain + costing; split out Hostinger/; refreshed live Hetzner inventory (6 servers running, incl. the now-provisioned CodingInABox cx23/fsn1 box).
+- files_changed:
+  - moved (git mv, history preserved): moodle_servers/www.appcanadaemcs.com/ -> Hetzner/Default-14010860/servers/app.canadaemcs.com/; Context/README.md -> Hetzner/Default-14010860/BUILD_GUIDE.md; Resources/ssh_keys/hetzner_moodle_ed25519.pub -> Hetzner/ssh_keys/
+  - moved (untracked): servers/www.codinginabox.com/ -> Hetzner/Hextract-15178002/servers/; domains/ -> Hostinger/domains/; hostinger/ -> Hostinger/tools/; ssh private keys -> Hetzner/ssh_keys/ (gitignored)
+  - new docs: README.md (root), Hetzner/README.md, Hetzner/ssh_keys/KEYS.md, Hetzner/Default-14010860/{inventory,costing}.md, Hetzner/Hextract-15178002/{inventory,costing}.md, 4x server notes.md
+  - path fixes: .gitignore (server globs -> Hetzner/*/servers/*; ssh_keys path; +node_modules/), Hostinger/tools/refresh.mjs + _vps.mjs (OUT/entry abs paths), prepare-build-context.sh (REPO_ROOT ../.. -> ../../../..)
+  - cleanup: removed stray root `nul`; relocated root *.png -> Resources/screenshots/ (gitignored)
+  - Project_notes_folder/PROJECT_NOTES.md (header, Current State, D-013, File Map, Open Questions #11-12, Context), CHANGELOG.md (this block)
+- next: commit + push to origin/main; then DNS+SSL for canadaeacademy.com & canadavirtualschool.com, confirm Agincourt domain, CodingInABox www/apex cutover.

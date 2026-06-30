@@ -4,23 +4,35 @@
 # Debug screenshots at repo root (regenerable, ~17 MB total)
 *.png
 
-# SSH private keys — NEVER commit
-Resources/ssh_keys/*
-!Resources/ssh_keys/*.pub
+# Environment / secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# SSH private keys — NEVER commit (keys live under Hetzner/ssh_keys/ since the 2026-06 reorg)
+Hetzner/ssh_keys/*
+!Hetzner/ssh_keys/*.pub
+
+# Takeout/duplicate Resources export (may contain private keys)
+Resources/Resources-*/
+
+# Node dependencies (e.g. Hostinger/tools/node_modules) — regenerable from package-lock
+node_modules/
 
 # Vendor plugin archives (binary, large, easily re-downloaded from vendor)
 Resources/moodle_plugins/*.zip
 Resources/moodle_plugins/*.tar.gz
 Resources/moodle_plugins/*.tgz
 Resources/moodle_plugins/*.pdf
-moodle_servers/*/moodleplugins/*.zip
-moodle_servers/*/moodleplugins/*.tar.gz
-moodle_servers/*/moodleplugins/*.tgz
-moodle_servers/*/moodleplugins/*.pdf
-moodle_servers/*/dbdata/
-moodle_servers/*/moodledata/
-moodle_servers/*/moodle_course_organization/
-moodle_servers/Generated_Content/
+# Per-server build context & runtime data (servers now live at Hetzner/<project>/servers/<domain>/)
+Hetzner/*/servers/*/moodleplugins/*.zip
+Hetzner/*/servers/*/moodleplugins/*.tar.gz
+Hetzner/*/servers/*/moodleplugins/*.tgz
+Hetzner/*/servers/*/moodleplugins/*.pdf
+Hetzner/*/servers/*/dbdata/
+Hetzner/*/servers/*/moodledata/
+Hetzner/*/servers/*/moodle_course_organization/
+Hetzner/Generated_Content/
 
 # Backup / pre-change snapshots
 *.bak
