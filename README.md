@@ -25,6 +25,7 @@ Project_notes_folder/   PROJECT_NOTES.md, CHANGELOG.md, runbooks (cross-session 
 Resources/moodle_plugins/   Shared vendor plugin library (gitignored archives)
 ```
 
-Last infrastructure refresh: **2026-06-30** (see `Hetzner/README.md` for the live snapshot).
+Fleet docs moved 2026-07-16 to **`E:\Claude\Hetzner`** (see `Hetzner/MOVED.md`); `Hetzner/` here now
+holds only Moodle build/deploy artifacts. Live fleet snapshot: `E:\Claude\Hetzner\README.md`.
 
 > Secrets (`.env`, SSH private keys, `node_modules/`) are gitignored and never committed.
